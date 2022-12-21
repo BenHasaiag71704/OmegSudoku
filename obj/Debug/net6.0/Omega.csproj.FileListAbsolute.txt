@@ -1,0 +1,15 @@
+C:\Users\BenHa\source\repos\Omega\bin\Debug\net6.0\Omega.exe
+C:\Users\BenHa\source\repos\Omega\bin\Debug\net6.0\Omega.deps.json
+C:\Users\BenHa\source\repos\Omega\bin\Debug\net6.0\Omega.runtimeconfig.json
+C:\Users\BenHa\source\repos\Omega\bin\Debug\net6.0\Omega.dll
+C:\Users\BenHa\source\repos\Omega\bin\Debug\net6.0\Omega.pdb
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.csproj.AssemblyReference.cache
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.AssemblyInfoInputs.cache
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.AssemblyInfo.cs
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.csproj.CoreCompileInputs.cache
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.dll
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\refint\Omega.dll
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.pdb
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\Omega.genruntimeconfig.cache
+C:\Users\BenHa\source\repos\Omega\obj\Debug\net6.0\ref\Omega.dll
