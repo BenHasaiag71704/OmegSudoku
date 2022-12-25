@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omega", "Omega.csproj", "{7EAEA855-8DAA-4FEC-8231-4804E32ACB56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omega", "Omega.csproj", "{7EAEA855-8DAA-4FEC-8231-4804E32ACB56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soduku", "Soduku", "{07A26929-FF7D-4D11-A651-F0834530BF88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7EAEA855-8DAA-4FEC-8231-4804E32ACB56} = {07A26929-FF7D-4D11-A651-F0834530BF88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {418344C1-FF93-47B4-BBAC-7DCF002AB5CA}

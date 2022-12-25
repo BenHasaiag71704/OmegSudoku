@@ -1,17 +1,22 @@
-﻿using System;
+﻿using Omega;
+using System;
+using System.Diagnostics;
 
 public class HelloWorld
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Hello World");
-        Console.WriteLine("Hello");
 
+        SodukoBoard cs = new SodukoBoard();
 
+        cs.printBoard();
+
+        Boolean b = cs.SolveBoard();
+
+        Console.WriteLine(" ");
+
+        cs.printBoard();
 
     }
-    public int sudokuSolver(int bla)
-    {
-        return bla;
-    }
+
 }
