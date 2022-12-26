@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
+using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,6 +87,87 @@ namespace Omega
             }
 
             return true;
+        }
+
+
+        public static int cellHashValidatorRow(Cell[,] board, int row, int col, int size, int value)
+        {
+            int count = 0;
+            for (int i = 0; i < size; i++)
+            {
+                HashSet<int> temp = board[i, col].possibilities;
+                foreach (int v in temp)
+                {
+                    if (v == value)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public static int cellHashValidatorCol(Cell[,] board, int row, int col, int size, int value)
+        {
+            int count = 0;
+            for (int i = 0; i < size; i++)
+            {
+                HashSet<int> temp = board[row,i].possibilities;
+                foreach (int v in temp)
+                {
+                    if (v == value)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public static int cellHashValidatorBox(Cell[,] board, int row, int col, int size, int value)
+        {
+
+            int count = 0;
+
+            int lenght = (int)Math.Sqrt(size);
+
+            int BoxStartingRow = row - row % lenght;
+
+            int BoxStartingCol = col - col % lenght;
+
+
+            HashSet<int> temp = new HashSet<int>();
+
+            for (int i = BoxStartingRow; i < BoxStartingRow + lenght; i++)
+            {
+                for (int j = BoxStartingCol; j < BoxStartingCol + lenght; j++)
+                {
+                    temp = board[i, j].possibilities;
+                    if (temp.Contains(value))
+                    {
+                            count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public static int cellHashValidator(HashSet<int> temp, Cell[,] board, int row, int col, int size)
+        {
+            foreach (int v in temp)
+            {
+                int Checkrow = cellHashValidatorRow(board,  row,  col,  size,  v);
+
+                int Checkcol = cellHashValidatorCol(board, row, col, size, v);
+
+                int CheckBox = cellHashValidatorBox(board, row, col, size, v);
+
+                if (Checkrow == 1 || Checkcol ==1 || CheckBox == 1)
+                {
+                    return v;
+                }
+            }
+            return -1;
         }
     }
 }
