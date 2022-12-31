@@ -127,6 +127,8 @@ namespace Omega
         public static int cellHashValidatorBox(Cell[,] board, int row, int col, int size, int value)
         {
 
+
+            //16*16 , lng = 4
             int count = 0;
 
             int lenght = (int)Math.Sqrt(size);
@@ -154,17 +156,24 @@ namespace Omega
 
         public static int cellHashValidator(HashSet<int> temp, Cell[,] board, int row, int col, int size)
         {
-            foreach (int v in temp)
+            foreach (int v in temp) 
             {
-                int Checkrow = cellHashValidatorRow(board,  row,  col,  size,  v);
-
-                int Checkcol = cellHashValidatorCol(board, row, col, size, v);
-
-                int CheckBox = cellHashValidatorBox(board, row, col, size, v);
-
-                if (Checkrow == 1 || Checkcol ==1 || CheckBox == 1)
+                if (cellValidator(board, row, col, size, v))
                 {
-                    return v;
+                    int Checkrow = cellHashValidatorRow(board, row, col, size, v);
+
+                    int Checkcol = cellHashValidatorCol(board, row, col, size, v);
+
+                    int CheckBox = cellHashValidatorBox(board, row, col, size, v);
+
+                    if (Checkrow == 1 || Checkcol == 1 || CheckBox == 1)
+                    {
+                        return v;
+                    }
+                }
+                else
+                {
+                    board[row,col].possibilities.Remove(v);
                 }
             }
             return -1;
