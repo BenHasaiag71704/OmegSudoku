@@ -17,7 +17,7 @@ public class HelloWorld
     public static void Main(string[] args)
     {
 
-        Console.WriteLine("Welcome to the sudoku solver!");
+        Console.WriteLine("Welcome to the sudoku solver ");
 
 
         var watch = new System.Diagnostics.Stopwatch();
