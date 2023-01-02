@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,11 +14,19 @@ namespace Omega
 {
     public class SodukoBoard
     {
+
+        public static int[] EmptyArray { get; set; }
+
+        public static int EmptyCountAndLocation;
+
         public int size { get; }
 
         public string inputedString { get; }
 
         public Cell[,] board { get; set; }
+
+        public Boolean isValid { get; set; }
+
 
         public SodukoBoard()
         {
@@ -31,10 +40,56 @@ namespace Omega
             string tempString = Console.ReadLine();
             this.inputedString = tempString;
 
-            this.board = new Cell[tempInt, tempInt];
+             this.isValid = true;
 
-            boardFill(tempString);
+
+            //check that the size is perfect squre , if so , continue to next valid
+            //4*4 board dont have 
+            if (Math.Abs(Math.Sqrt(this.size) % 1) != 0)
+            {
+                this.isValid = false;
+                Console.WriteLine("please enter a size which is a perfect square");
+            }
+
+
+            // check that the string lng mach the size
+            if (this.size * this.size != tempString.Length)
+            {
+                this.isValid = false;
+                Console.WriteLine("the size of the string must be the size^2");
+            }
+
+            // if the size and string size is valid , filling the board
+            // if char is not valid for this board , swaping isValid to false , thus following funcs wont be used
+            if (this.isValid)
+            {
+
+                this.board = new Cell[tempInt, tempInt];
+                boardFill(tempString);
+                if (!this.isValid)
+                {
+                    Console.WriteLine("a non valid char was inputed");
+                }
+            }
+
+            // this func wont change isValid , but needs it to be valid to run
+            if (this.isValid)
+            {
+                createEmptyArray();
+            }
+            // again , this function need isValid to be true in order to run , this is a board checker
+            // use this to valid board before we every start
+            if (this.isValid)
+            {
+                this.isValid = isSolveableBoard();
+                // display proper message if needed
+                if (!this.isValid)
+                {
+                    Console.WriteLine("Board is Not valid");
+                }
+            }
         }
+
 
         public void boardFill(String str)
         {
@@ -44,9 +99,34 @@ namespace Omega
                 for (int j = 0; j<this.size; j++)
                 {
                     this.board[i, j] = new Cell(Convert.ToInt32((int)str[count] - 48), this.size);
+
+                    if (Convert.ToInt32((int)str[count] - 48) < 0 || Convert.ToInt32((int)str[count] - 48) > this.size)
+                    {
+                        this.isValid = false;
+                        break;
+                    }
                     count++;
                 }
             }
+            EmptyCountAndLocation = count;
+        }
+
+        public void createEmptyArray()
+        {
+            int tempCounter = 0;
+            EmptyArray = new int[EmptyCountAndLocation];
+            for (int i = 0; i < this.size; i++)
+            {
+                for (int j = 0; j<this.size; j++)
+                {
+                    if (this.board[i, j].Value == 0)
+                    {
+                        EmptyArray[tempCounter] = i * this.size + j;
+                        tempCounter++;
+                    }
+                }
+            }
+            EmptyCountAndLocation = 0;
         }
 
         public void printBoard()
@@ -119,6 +199,25 @@ namespace Omega
                 }
             }
             return null;
+        }
+
+
+        public Boolean isSolveableBoard()
+        {
+            for (int i = 0; i < this.size; i++)
+            {
+                for (int j = 0; j < this.size; j++)
+                {
+                    if (this.board[i, j].Value != 0)
+                    {
+                        if (!cellValidator(this.board, i, j, this.size, this.board[i, j].Value))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
 
@@ -407,6 +506,38 @@ namespace Omega
                     {
                         return true;
                     }
+                    board[row, col].Value = 0;
+                }
+            }
+            return false;
+        }
+
+
+
+
+
+        public Boolean SolveBoardEmptyArray()
+        {
+            if (EmptyCountAndLocation < 0 || EmptyCountAndLocation >= EmptyArray.Length)
+            {
+                return true;
+            }
+
+
+            int row = EmptyArray[EmptyCountAndLocation] / this.size;
+            int col = EmptyArray[EmptyCountAndLocation] % this.size;
+
+            for (int i = 1; i <= size; i++)
+            {
+                if (cellValidator(this.board, row, col, this.size, i))
+                {
+                    EmptyCountAndLocation++;
+                    board[row, col].Value = i;
+                    if (SolveBoard())
+                    {
+                        return true;
+                    }
+                    EmptyCountAndLocation--;
                     board[row, col].Value = 0;
                 }
             }

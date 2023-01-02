@@ -17,82 +17,54 @@ public class HelloWorld
     public static void Main(string[] args)
     {
 
-
-
         var watch = new System.Diagnostics.Stopwatch();
         SodukoBoard cs = new SodukoBoard();
-        Console.WriteLine("The Original Board : ");
-        cs.printBoard();
 
 
-        //TODO : adding simple elimination
-        //TODO : adding naked singles
-        //TODO : update board
-        Console.WriteLine("\n\n");
-
-
-
-
-        watch.Start();
-        while (cs.simpleElimination())
+        if (cs.isValid)
         {
+            Console.WriteLine("The Original Board : ");
+            cs.printBoard();
+            watch.Start();
 
+            while (cs.simpleElimination())
+            {
+
+            }
+            Console.WriteLine(" ");
+
+            while (cs.hiddenSingle())
+            {
+
+            }
+            //Boolean b = cs.SolveBoardHashAndBySize();
+
+            //Boolean b = cs.SolveBoardBackwards();
+
+            //Boolean b = cs.SolveBoard();
+
+
+            //problematic on full empty board;
+            //Boolean b = cs.SolveBoardBackwardsAndBySize();
+
+            //Boolean b = cs.SolveBoardHash();
+
+            Boolean b = cs.SolveBoardEmptyArray();
+
+
+            watch.Stop();
+
+
+            cs.printBoard();
+            Console.WriteLine(" ");
+
+            Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+        }
+        else
+        {
+            Console.WriteLine("Board Is Not Valid");
         }
 
-        //Console.WriteLine("board after simple : ");
-        //cs.printBoard();
-        //Console.WriteLine("\n\n");
-
-
-
-
-        //Console.WriteLine("the count : " + count);
-        //Console.WriteLine(" ");
-        //Console.WriteLine(" ");
-        //Console.WriteLine(" ");
-        //Console.WriteLine(" ");
-
-
-
-        Console.WriteLine(" ");
-
-        while (cs.hiddenSingle())
-        {
-
-        }
-        //Console.WriteLine("board hidden single : ");
-        //cs.printBoard();
-
-
-
-
-
-
-
-
-
-        //Console.WriteLine(" ");
-
-
-
-
-
-        //Boolean b = cs.SolveBoardHashAndBySize();
-        //Boolean b = cs.SolveBoardBackwards();
-
-        Boolean b = cs.SolveBoard();
-
-        //Boolean b = cs.SolveBoardBackwardsAndBySize();
-        //Boolean b = cs.SolveBoardHash();
-
-
-        watch.Stop();
-
-
-        cs.printBoard();
-        Console.WriteLine(" ");
-
-        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
 
         Console.ReadLine();
 
