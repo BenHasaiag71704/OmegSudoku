@@ -226,7 +226,7 @@ namespace Omega
 
             //
             //
-            for (int count = 2; count < this.size; count++)
+            for (int count = 2; count <= this.size; count++)
             {
                 for (int i = 0; i < this.size; i++)
                 {

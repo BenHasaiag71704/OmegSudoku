@@ -17,10 +17,13 @@ public class HelloWorld
     public static void Main(string[] args)
     {
 
+        Console.WriteLine("Welcome to the sudoku solver ");
+
+
         var watch = new System.Diagnostics.Stopwatch();
         SodukoBoard cs = new SodukoBoard();
 
-
+        
         if (cs.isValid)
         {
             Console.WriteLine("The Original Board : ");
@@ -45,11 +48,12 @@ public class HelloWorld
 
 
             //problematic on full empty board;
+
             //Boolean b = cs.SolveBoardBackwardsAndBySize();
 
             //Boolean b = cs.SolveBoardHash();
 
-            Boolean b = cs.SolveBoardEmptyArray();
+            //Boolean b = cs.SolveBoardEmptyArray();
 
 
             watch.Stop();
