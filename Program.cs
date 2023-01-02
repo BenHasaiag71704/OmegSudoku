@@ -45,11 +45,12 @@ public class HelloWorld
 
 
             //problematic on full empty board;
+
             //Boolean b = cs.SolveBoardBackwardsAndBySize();
 
             //Boolean b = cs.SolveBoardHash();
 
-            Boolean b = cs.SolveBoardEmptyArray();
+            //Boolean b = cs.SolveBoardEmptyArray();
 
 
             watch.Stop();
