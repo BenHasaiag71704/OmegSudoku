@@ -20,58 +20,69 @@ public class HelloWorld
         Console.WriteLine("Welcome to the sudoku solver ");
 
 
+        //var watch = new System.Diagnostics.Stopwatch();
+        //SodukoBoard cs = new SodukoBoard();
+
+
+        //if (cs.isValid)
+        //{
+        //    Console.WriteLine("The Original Board : ");
+        //    cs.printBoard();
+        //    watch.Start();
+
+        //    while (cs.simpleElimination())
+        //    {
+
+        //    }
+        //    Console.WriteLine(" ");
+        //    int count = 0;
+        //    while (cs.hiddenSingle())
+        //    {
+        //        count++;
+        //    }
+        //    Console.WriteLine(count);
+
+        //    //Boolean b = cs.SolveBoardHashAndBySize();
+
+        //    //Boolean b = cs.SolveBoardBackwards();
+
+        //    //Boolean b = cs.SolveBoard();
+
+
+        //    //problematic on full empty board;
+
+        //    //Boolean b = cs.SolveBoardBackwardsAndBySize();
+
+        //    //Boolean b = cs.SolveBoardHash();
+
+        //    //Boolean b = cs.SolveBoardEmptyArray();
+
+
+        //    watch.Stop();
+
+
+        //    cs.printBoard();
+        //    Console.WriteLine(" ");
+
+        //    Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+        //}
+        //else
+        //{
+        //    Console.WriteLine("Board Is Not Valid");
+        //}
+
+
+        //Console.ReadLine();
+
+
+
         var watch = new System.Diagnostics.Stopwatch();
-        SodukoBoard cs = new SodukoBoard();
+        SudokuBoardBin sbb = new SudokuBoardBin();
 
-        
-        if (cs.isValid)
-        {
-            Console.WriteLine("The Original Board : ");
-            cs.printBoard();
-            watch.Start();
-
-            while (cs.simpleElimination())
-            {
-
-            }
-            Console.WriteLine(" ");
-
-            while (cs.hiddenSingle())
-            {
-
-            }
-            //Boolean b = cs.SolveBoardHashAndBySize();
-
-            //Boolean b = cs.SolveBoardBackwards();
-
-            //Boolean b = cs.SolveBoard();
-
-
-            //problematic on full empty board;
-
-            //Boolean b = cs.SolveBoardBackwardsAndBySize();
-
-            //Boolean b = cs.SolveBoardHash();
-
-            //Boolean b = cs.SolveBoardEmptyArray();
-
-
-            watch.Stop();
-
-
-            cs.printBoard();
-            Console.WriteLine(" ");
-
-            Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-        }
-        else
-        {
-            Console.WriteLine("Board Is Not Valid");
-        }
-
-
-        Console.ReadLine();
-
+        watch.Start();
+        sbb.Solve();
+        watch.Stop();
+        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
     }
 
 }
