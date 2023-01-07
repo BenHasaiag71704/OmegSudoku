@@ -48,7 +48,7 @@ namespace Omega.DLX
                 CurrentNode = CurrentRow.Left;
                 while (CurrentNode != CurrentRow)
                 {
-                    CurrentNode.father.Size--;
+                    CurrentNode.father.Size++;
                     CurrentNode.unlinkDown();
                     CurrentNode = CurrentNode.Left;
                 }

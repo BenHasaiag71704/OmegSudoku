@@ -73,11 +73,8 @@ public class HelloWorld
 
 
 
-        var watch = new System.Diagnostics.Stopwatch();
-        watch.Start();
+
         DLXSudokuBoard dlx = new DLXSudokuBoard();
-        watch.Stop();
-        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
         Console.ReadLine();
 
     }

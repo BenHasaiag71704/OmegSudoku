@@ -46,18 +46,24 @@ namespace Omega.DLX
 
             initCoverMatrix();
 
-            ConvertMatrixIntoNodeMatrix();
 
+
+            ConvertMatrixIntoNodeMatrix();
 
 
             this.dlxStack= new Stack<BaseDLXNode>();
 
-            Boolean b = search();
 
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+            Boolean b = search();
+            watch.Stop();
             if (b)
             {
                 ConverBackToBoard();
                 printBoard();
+                Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+
             }
             else
             {
@@ -143,8 +149,24 @@ namespace Omega.DLX
 
             for (int index = 0; index < size * size * 4; index++)
             {
-                fatherArray[index] = new AdvanceDLXNode(index);
-                this.fatherOfAll.linkRight(fatherArray[index]);
+                ///need to test which is right
+
+                //fatherArray[index] = new AdvanceDLXNode(index);
+                //this.fatherOfAll.linkRight(fatherArray[index]);
+
+
+                if (index == 0)
+                {
+                    fatherArray[index] = new AdvanceDLXNode(index);
+                    this.fatherOfAll.linkRight(fatherArray[index]);
+                }
+                else
+                {
+                    fatherArray[index] = new AdvanceDLXNode(index);
+                    fatherArray[index - 1].linkRight(fatherArray[index]);
+                }
+
+
             }
 
             int value = 0;
@@ -152,10 +174,11 @@ namespace Omega.DLX
             AdvanceDLXNode fatherNode;
 
             BaseDLXNode insertNode;
+
             BaseDLXNode lastNode;
 
 
-            for (int row = 0; row < size * size * size; row++)
+            for (int row = 0; row < size * size * size  ; row++)
             {
 
                 lastNode = null;
@@ -165,7 +188,7 @@ namespace Omega.DLX
                     value = this.coverMatrix[row, col];
                     if (value == 0)
                     {
-                        
+
                     }
                     else
                     {
@@ -188,19 +211,20 @@ namespace Omega.DLX
             }
         }
 
+
         public AdvanceDLXNode chooseColumnObject()
         {
             AdvanceDLXNode n = (AdvanceDLXNode) this.fatherOfAll.Right;
 
             AdvanceDLXNode saveNode= null;
 
-            int size = this.size * this.size * this.size;
+            int TheSize = this.size * this.size * this.size;
 
             while (n != this.fatherOfAll)
             {
-                if (n.Size < size)
+                if (n.Size < TheSize)
                 {
-                    size = n.Size;
+                    TheSize = n.Size;
                     saveNode = n;
                 }
                 n = (AdvanceDLXNode) n.Right;
@@ -329,5 +353,4 @@ namespace Omega.DLX
         }
 
     }
-
 }
