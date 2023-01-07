@@ -1,7 +1,9 @@
 ﻿using Omega;
+using Omega.DLX;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 
@@ -17,59 +19,65 @@ public class HelloWorld
     public static void Main(string[] args)
     {
 
-        Console.WriteLine("Welcome to the sudoku solver ");
+        //Console.WriteLine("Welcome to the sudoku solver ");
+
+
+        //var watch = new System.Diagnostics.Stopwatch();
+        //SodukoBoard cs = new SodukoBoard();
+
+
+        //if (cs.isValid)
+        //{
+        //    Console.WriteLine("The Original Board : ");
+        //    cs.printBoard();
+        //    watch.Start();
+
+        //    while (cs.simpleElimination())
+        //    {
+
+        //    }
+        //    Console.WriteLine(" ");
+
+        //    while (cs.hiddenSingle())
+        //    {
+
+        //    }
+        //    //Boolean b = cs.SolveBoardHashAndBySize();
+
+        //    //Boolean b = cs.SolveBoardBackwards();
+
+        //    //Boolean b = cs.SolveBoard();
+
+
+        //    //problematic on full empty board;
+
+        //    //Boolean b = cs.SolveBoardBackwardsAndBySize();
+
+        //    //Boolean b = cs.SolveBoardHash();
+
+        //    //Boolean b = cs.SolveBoardEmptyArray();
+
+
+        //    watch.Stop();
+
+
+        //    cs.printBoard();
+        //    Console.WriteLine(" ");
+
+        //    Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+        //}
+        //else
+        //{
+        //    Console.WriteLine("Board Is Not Valid");
+        //}
+
 
 
         var watch = new System.Diagnostics.Stopwatch();
-        SodukoBoard cs = new SodukoBoard();
-
-        
-        if (cs.isValid)
-        {
-            Console.WriteLine("The Original Board : ");
-            cs.printBoard();
-            watch.Start();
-
-            while (cs.simpleElimination())
-            {
-
-            }
-            Console.WriteLine(" ");
-
-            while (cs.hiddenSingle())
-            {
-
-            }
-            //Boolean b = cs.SolveBoardHashAndBySize();
-
-            //Boolean b = cs.SolveBoardBackwards();
-
-            //Boolean b = cs.SolveBoard();
-
-
-            //problematic on full empty board;
-
-            //Boolean b = cs.SolveBoardBackwardsAndBySize();
-
-            //Boolean b = cs.SolveBoardHash();
-
-            //Boolean b = cs.SolveBoardEmptyArray();
-
-
-            watch.Stop();
-
-
-            cs.printBoard();
-            Console.WriteLine(" ");
-
-            Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-        }
-        else
-        {
-            Console.WriteLine("Board Is Not Valid");
-        }
-
-
+        watch.Start();
+        DLXSudokuBoard dlx = new DLXSudokuBoard();
+        watch.Stop();
+        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
         Console.ReadLine();
 
     }
