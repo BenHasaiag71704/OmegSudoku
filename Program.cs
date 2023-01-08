@@ -42,20 +42,20 @@ public class HelloWorld
         //    {
 
         //    }
-        //    //Boolean b = cs.SolveBoardHashAndBySize();
+        //    Boolean b = cs.SolveBoardHashAndBySize();
 
-        //    //Boolean b = cs.SolveBoardBackwards();
+        //    Boolean b = cs.SolveBoardBackwards();
 
-        //    //Boolean b = cs.SolveBoard();
+        //    Boolean b = cs.SolveBoard();
 
 
-        //    //problematic on full empty board;
+        //    problematic on full empty board;
 
-        //    //Boolean b = cs.SolveBoardBackwardsAndBySize();
+        //    Boolean b = cs.SolveBoardBackwardsAndBySize();
 
-        //    //Boolean b = cs.SolveBoardHash();
+        //    Boolean b = cs.SolveBoardHash();
 
-        //    //Boolean b = cs.SolveBoardEmptyArray();
+        //    Boolean b = cs.SolveBoardEmptyArray();
 
 
         //    watch.Stop();
