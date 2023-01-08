@@ -8,10 +8,21 @@ namespace Omega.DLX
 {
     public class BaseDLXNode
     {
+
+        // this is the base node class which would later on used to
+        // creat the doubly linked list , which is needed for the algorithm
+        // this class will fill the matrix
+
+
         public BaseDLXNode Right, Left, Up, Down;
 
+
+        // the "father" of the node , can be seen as another pointer
         public AdvanceDLXNode father { get; set; }
 
+
+        //we are working with a doubly linked list
+        // when we create a node we need to connect it to its father
         public BaseDLXNode(AdvanceDLXNode father)
         {
             this.Right = this;
