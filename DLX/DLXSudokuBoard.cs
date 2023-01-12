@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -62,6 +61,7 @@ namespace Omega.DLX
             initCoverMatrix();
 
 
+
             ConvertMatrixIntoNodeMatrix();
 
 
@@ -109,68 +109,78 @@ namespace Omega.DLX
         // the cover matrix is at size : size^5 * 4
         // size*size*4 - for each cell-row-col-box
         // size*size*size for the row col and all posibilities we can put inside it
-
         public void initCoverMatrix()
         {
-            // initialize the cover matrix
             coverMatrix = new byte[size * size * size, size * size * 4];
+
+
+            // the row we working in
+            int Placement = 0;
+
+            // store the value to check if it should get into the matrix
+            int matrixValue = 0;
+
+            // numbers which are used to correctly placed the numbers in the matrix
+            // in order to create a uniq matrix
+
+            // all shifters are co-respoinding to there constraints
+            int cellShifter = 0;
+            int colShifter = size * size;
+            int rowShifter = size * size * 2;
+            int boxShifter = size * size * 3;
+
+            // used to correct the symetric (if we incresss..
+            // the same size in each loop , we wont be able to create...
+            // uniq placements , thus an aditional numbers are needed...
+            // to shift the placement , which will be held outside of the inside-loop)
+            int rowAsymmetric = 0;
+            int boxStrarting = 0;
+
+
+            // first 2 fors are for covering the matrix (of numbers)
             for (int row = 0; row < size; row++)
             {
+                colShifter = size * size;
+
                 for (int col = 0; col < size; col++)
-                { 
-                    for (int value = 0; value < size; value++)
+                {
+                    //get the currevt value (to know if we need to work on it)
+                    // +
+                    // calc the block index from 0 to n
+
+                    matrixValue = matrix[row, col];
+
+                    boxStrarting = (row / sqrtSize) * sqrtSize + col / sqrtSize;
+
+
+                    // try all posibilities ( 1 to n)
+                    for (int CurrentCandidate = 1; CurrentCandidate <= size; CurrentCandidate++)
                     {
-                        // if you are a posible value (mat[row,col] = 0)
-                        // or if you are the only option
-                        if (matrix[row, col] == 0 || matrix[row, col] == value+1)
+
+                        if (matrixValue == 0 || matrixValue == CurrentCandidate)
                         {
-                            // the row in the cover matrix we need to insert to [X,]
-                            int rowPlace = firstDimensionPlacement(row, col, value);
+                            // update cell constraint
+                            coverMatrix[Placement, cellShifter] = 1;
 
-                            // setting the mat in the calculated spots to 1
-                            coverMatrix[rowPlace, cellPlacement(row, col)] = 1;
+                            // update col constraint
+                            coverMatrix[Placement, colShifter] = 1;
 
+                            // update row constraint
+                            rowAsymmetric = CurrentCandidate - 1;
+                            coverMatrix[Placement, rowShifter + rowAsymmetric] = 1;
 
-                            coverMatrix[rowPlace, this.rowPlacement(row, value)] = 1;
-
-                            
-                            coverMatrix[rowPlace, colPlacement(col, value)] = 1;
-
-                            
-                            coverMatrix[rowPlace, boxPlacement(row, col, value)] = 1;
+                            // update block constraint
+                            coverMatrix[Placement, boxShifter + boxStrarting * size + rowAsymmetric] = 1;
                         }
+                        Placement++;
+                        colShifter++;
                     }
+                    cellShifter++;
                 }
+                rowShifter += size;
             }
+            return;
         }
-
-        private int firstDimensionPlacement(int row, int col, int value)
-        {
-            return row * size * size + col * size + value;
-        }
-
-        private int cellPlacement(int row, int col)
-        {
-            return row * size + col;
-        }
-
-        private int rowPlacement(int row, int value)
-        {
-            return size * size + row * size + value;
-        }
-
-        private int colPlacement(int col, int value)
-        {
-            return size * size * 2 + col * size + value;
-        }
-
-        private int boxPlacement(int row, int col, int value)
-        {
-            return size * size * 3 +
-                   (row / sqrtSize * sqrtSize + col / sqrtSize) * size + value;
-        }
-
-
 
 
         // converting the cover matrix into doubly linked node
@@ -416,15 +426,9 @@ namespace Omega.DLX
         }
 
 
+        
         public void printBoard()
         {
-            Console.Write(" ");
-            for (int j = 0; j < this.size + 1; j++)
-            {
-                Console.Write("---");
-            }
-            Console.WriteLine();
-
             for (int i = 0; i < this.size; i++)
             {
                 int modo = (int)Math.Sqrt(size);
@@ -432,25 +436,11 @@ namespace Omega.DLX
                 {
                     if (this.matrix[i, j] >= 10)
                     {
-                        if (j == 0)
-                        {
-                            Console.Write("|" + this.matrix[i, j]);
-                        }
-                        else
-                        {
-                            Console.Write(this.matrix[i, j]);
-                        }
+                        Console.Write(this.matrix[i, j]);
                     }
                     else
                     {
-                        if (j == 0)
-                        {
-                            Console.Write("|0" + this.matrix[i, j]);
-                        }
-                        else
-                        {
-                            Console.Write("0" + this.matrix[i, j]);
-                        }
+                        Console.Write("0" + this.matrix[i, j]);
 
                     }
                     Console.Write(" ");
@@ -460,18 +450,13 @@ namespace Omega.DLX
                     }
                 }
                 Console.Write("\n");
+                // hardcoded for 9x9
                 if (i % modo == modo - 1)
                 {
-                    Console.Write(" ");
-                    for (int j = 0; j < this.size + 1 ; j++) {
-                        Console.Write("---");
-                    }
-                    Console.WriteLine();
+                    Console.WriteLine("-----------------");
                 }
             }
         }
-
-
 
     }
 }
