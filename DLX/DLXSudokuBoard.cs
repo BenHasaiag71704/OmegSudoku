@@ -40,24 +40,28 @@ namespace Omega.DLX
         //used to point at all the fathers 
         public AdvanceDLXNode fatherOfAll;
 
+        public String SolvedBoard;
 
-        public DLXSudokuBoard()
+
+        public DLXSudokuBoard(String tempString , int tempInt)
         {
             //creating the board , will be improved soon
 
             var watch = new System.Diagnostics.Stopwatch();
-            Console.WriteLine("please enter the size\n");
-            int tempInt = int.Parse(Console.ReadLine());
+            //Console.WriteLine("please enter the size\n");
+            //int tempInt = int.Parse(Console.ReadLine());
             this.size = tempInt;
 
             this.sqrtSize = (int)Math.Sqrt(tempInt);
 
 
-            Console.WriteLine("please enter the boardString");
-            string tempString = Console.ReadLine();
+            //Console.WriteLine("please enter the boardString");
+            //string tempString = Console.ReadLine();
+
 
             watch.Start();
             boardFill(tempString);
+            printBoard();
 
             initCoverMatrix();
 
@@ -77,16 +81,75 @@ namespace Omega.DLX
                 ConverBackToBoard();
                 printBoard();
                 Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-
+                buildSolveBoardString();
             }
             else
             {
+                this.SolvedBoard = "";
                 Console.WriteLine("cant solve");
             }
-
-
-
         }
+
+
+
+        // !!! this is an EXCACT copy of the main function , the ONLY
+        // diffrence is the fact that i do not use the print methods
+        // but only solve the board!
+        // this is for giving an accurate solving time
+        public DLXSudokuBoard(String tempString, int tempInt, Boolean isTesting)
+        {
+            //creating the board , will be improved soon
+
+            var watch = new System.Diagnostics.Stopwatch();
+            //Console.WriteLine("please enter the size\n");
+            //int tempInt = int.Parse(Console.ReadLine());
+            this.size = tempInt;
+
+            this.sqrtSize = (int)Math.Sqrt(tempInt);
+
+
+            //Console.WriteLine("please enter the boardString");
+            //string tempString = Console.ReadLine();
+
+
+            watch.Start();
+            boardFill(tempString);
+
+            if (!isTesting)
+            {
+                printBoard();
+            }
+
+            initCoverMatrix();
+
+
+            ConvertMatrixIntoNodeMatrix();
+
+
+            this.dlxStack = new Stack<BaseDLXNode>();
+
+
+            // start the solve fucntion , which is search
+            //watch.Start();
+            Boolean b = search();
+            watch.Stop();
+            if (b)
+            {
+                ConverBackToBoard();
+                if (!isTesting)
+                {
+                    printBoard();
+                }
+                Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+                buildSolveBoardString();
+            }
+            else
+            {
+                this.SolvedBoard = "";
+                Console.WriteLine("cant solve");
+            }
+        }
+
         public void boardFill(String str)
         {
             // convert the string into matrix of workable numbers
@@ -121,7 +184,7 @@ namespace Omega.DLX
                     for (int value = 0; value < size; value++)
                     {
                         // if you are a posible value (mat[row,col] = 0)
-                        // or if you are the only option
+                        // or if its the value +1 
                         if (matrix[row, col] == 0 || matrix[row, col] == value + 1)
                         {
                             // the row in the cover matrix we need to insert to [X,]
@@ -131,7 +194,7 @@ namespace Omega.DLX
                             coverMatrix[rowPlace, cellPlacement(row, col)] = 1;
 
 
-                            coverMatrix[rowPlace, this.rowPlacement(row, value)] = 1;
+                            coverMatrix[rowPlace, rowPlacement(row, value)] = 1;
 
 
                             coverMatrix[rowPlace, colPlacement(col, value)] = 1;
@@ -144,6 +207,16 @@ namespace Omega.DLX
             }
         }
 
+
+        //4x4 example
+        //(cand,r,c)
+        // 100 - > 0 
+        // 200 - > 1
+        // 300 - > 2
+        // 400 - > 3
+        // 101 - > 4
+        // 201 - > 5
+        //etc , this func will calc the row in the matrix
         public int firstDimensionPlacement(int row, int col, int value)
         {
             return row * size * size + col * size + value;
@@ -220,13 +293,14 @@ namespace Omega.DLX
             // node to insert
             BaseDLXNode insertNode;
 
-            BaseDLXNode lastNode;
+            //node to be able to connect the row nodes
+            BaseDLXNode connectionNode;
 
 
             for (int row = 0; row < size * size * size; row++)
             {
-                // save the last insertned node to connect to new ones , init to null every loop
-                lastNode = null;
+                // save the current node , each time moving it to the right , so we can link the row
+                connectionNode = null;
 
                 for (int col = 0; col < size * size * 4; col++)
                 {
@@ -245,16 +319,16 @@ namespace Omega.DLX
                         fatherNode.Up.linkDown(insertNode);
 
                         // inserting the new nodes
-                        if (lastNode != null)
+                        if (connectionNode != null)
                         {
-                            lastNode.linkRight(insertNode);
-                            lastNode = lastNode.Right;
+                            connectionNode.linkRight(insertNode);
+                            connectionNode = connectionNode.Right;
                         }
-                        // the case of lastNode = null 
+                        // the case of connectionNode = null 
                         // make the current node into the node to insert
                         else
                         {
-                            lastNode = insertNode;
+                            connectionNode = insertNode;
                         }
 
                         //update the size so we know how many nodes the father is linking to
@@ -276,7 +350,8 @@ namespace Omega.DLX
             AdvanceDLXNode saveNode = null;
 
             // max size of nodes the father can hold
-            int TheSize = this.size * this.size * this.size;
+            //int TheSize = this.size * this.size * this.size + 1;
+            int TheSize = this.size + 1;
 
             while (n != this.fatherOfAll)
             {
@@ -414,65 +489,83 @@ namespace Omega.DLX
 
             }
         }
-
-
         public void printBoard()
         {
-            Console.Write(" ");
-            for (int j = 0; j < this.size + 1; j++)
+            if (this.size == 1)
             {
-                Console.Write("---");
+                Console.WriteLine("---");
+                Console.WriteLine("|" + this.matrix[0,0] + "|");
+                Console.WriteLine("---");
             }
-            Console.WriteLine();
-
-            for (int i = 0; i < this.size; i++)
+            else
             {
-                int modo = (int)Math.Sqrt(size);
-                for (int j = 0; j < this.size; j++)
+                Console.Write(" ");
+                for (int j = 0; j < this.size + 1; j++)
                 {
-                    if (this.matrix[i, j] >= 10)
+                    Console.Write("---");
+                }
+                Console.WriteLine();
+
+                for (int i = 0; i < this.size; i++)
+                {
+                    int modo = (int)Math.Sqrt(size);
+                    for (int j = 0; j < this.size; j++)
                     {
-                        if (j == 0)
+                        if (this.matrix[i, j] >= 10)
                         {
-                            Console.Write("|" + this.matrix[i, j]);
+                            if (j == 0)
+                            {
+                                Console.Write("|" + this.matrix[i, j]);
+                            }
+                            else
+                            {
+                                Console.Write(this.matrix[i, j]);
+                            }
                         }
                         else
                         {
-                            Console.Write(this.matrix[i, j]);
-                        }
-                    }
-                    else
-                    {
-                        if (j == 0)
-                        {
-                            Console.Write("|0" + this.matrix[i, j]);
-                        }
-                        else
-                        {
-                            Console.Write("0" + this.matrix[i, j]);
-                        }
+                            if (j == 0)
+                            {
+                                Console.Write("|0" + this.matrix[i, j]);
+                            }
+                            else
+                            {
+                                Console.Write("0" + this.matrix[i, j]);
+                            }
 
+                        }
+                        Console.Write(" ");
+                        if (j % modo == modo - 1)
+                        {
+                            Console.Write("|");
+                        }
                     }
-                    Console.Write(" ");
-                    if (j % modo == modo - 1)
+                    Console.Write("\n");
+                    if (i % modo == modo - 1)
                     {
-                        Console.Write("|");
+                        Console.Write(" ");
+                        for (int j = 0; j < this.size + 1; j++)
+                        {
+                            Console.Write("---");
+                        }
+                        Console.WriteLine();
                     }
-                }
-                Console.Write("\n");
-                if (i % modo == modo - 1)
-                {
-                    Console.Write(" ");
-                    for (int j = 0; j < this.size + 1; j++)
-                    {
-                        Console.Write("---");
-                    }
-                    Console.WriteLine();
                 }
             }
+
         }
 
-
-
+        public void buildSolveBoardString()
+        {
+            String board = "";
+            for (int i = 0; i < this.size; i++)
+            {
+                for (int j = 0; j < this.size ; j++)
+                {
+                    board+= (char) (this.matrix[i, j]+ 48);
+                }
+            }
+            this.SolvedBoard = board;
+        }
     }
 }
