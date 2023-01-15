@@ -55,14 +55,14 @@ public class HelloWorld
             whereBoardComeFrom = Console.ReadLine();
 
             
-            if (whereBoardComeFrom == "c")
+            if (whereBoardComeFrom == "c" || whereBoardComeFrom == "C")
             {
                  
                 Console.WriteLine("please enter the a board\n");
                 tempString = Console.ReadLine();
                 toJoin = true;
             }
-            else if (whereBoardComeFrom == "f")
+            else if (whereBoardComeFrom == "f" || whereBoardComeFrom == "F")
             {
                 try
                 {
