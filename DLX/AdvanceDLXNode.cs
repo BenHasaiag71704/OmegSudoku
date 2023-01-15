@@ -29,7 +29,7 @@ namespace Omega.DLX
         // and all the rows that are at the same rows as the noded the father point at
         public void Cover()
         {
-            unlinkRight();
+            UnlinkRight();
             BaseDLXNode CurrentRow =  Down;
             BaseDLXNode CurrentNode;
 
@@ -40,7 +40,7 @@ namespace Omega.DLX
                 CurrentNode = CurrentRow.Right; 
                 while (CurrentNode != CurrentRow)
                 {
-                    CurrentNode.unlinkDown();
+                    CurrentNode.UnlinkDown();
 
                     // fixing the size after we removed something
                     CurrentNode.father.Size--;
@@ -56,7 +56,7 @@ namespace Omega.DLX
         //an undo function to the cover
 
         // we do the exact oposite of cover , we go up and up , relinking the noded which the father holds and all the noded which were disconected in the effected rows
-        public void unCover()
+        public void UnCover()
         {
             BaseDLXNode CurrentRow = Up;
             BaseDLXNode CurrentNode;
@@ -67,12 +67,12 @@ namespace Omega.DLX
                 while (CurrentNode != CurrentRow)
                 {
                     CurrentNode.father.Size++;
-                    CurrentNode.relinkDown();
+                    CurrentNode.RelinkDown();
                     CurrentNode = CurrentNode.Left;
                 }
                 CurrentRow = CurrentRow.Up;
             }
-            relinkRight();
+            RelinkRight();
         }
     }
 }

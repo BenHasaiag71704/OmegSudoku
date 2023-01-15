@@ -54,7 +54,7 @@ public class HelloWorld
             Console.WriteLine("choose c or f");
             whereBoardComeFrom = Console.ReadLine();
 
-            
+            // if c , read from console
             if (whereBoardComeFrom == "c" || whereBoardComeFrom == "C")
             {
                  
@@ -62,6 +62,7 @@ public class HelloWorld
                 tempString = Console.ReadLine();
                 toJoin = true;
             }
+            // if f , read from file
             else if (whereBoardComeFrom == "f" || whereBoardComeFrom == "F")
             {
                 try
@@ -95,22 +96,23 @@ public class HelloWorld
             {
                 Console.WriteLine("you cannot enter an empty board");
             }
+            //try solve
             else 
             {
                 try
                 {
-                    isValid(tempString);
+                    IsValid(tempString);
 
                     int lng = (int)Math.Sqrt(tempString.Length);
 
 
                     DLXSudokuBoard dlx = new DLXSudokuBoard(tempString, lng);
 
-                    dlx.printBoard();
+                    dlx.PrintBoard();
 
-                    dlx.finalSolve();
+                    dlx.FinalSolve();
 
-                    dlx.printBoard();
+                    dlx.PrintBoard();
 
 
                     String solvedBoard = dlx.SolvedBoard;
@@ -128,31 +130,27 @@ public class HelloWorld
                         Console.WriteLine(solvedBoard);
                     }
                 }
-                catch (sizeNotSupportedException ex)
+                catch (SizeNotSupportedException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (charNotSupportedException ex)
+                catch (CharNotSupportedException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (rowNotSupportedException ex)
+                catch (RowNotSupportedException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (colNotSupportedException ex)
+                catch (ColNotSupportedException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (boxNotSupportedException ex)
+                catch (BoxNotSupportedException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            
-
-
-
         }
     }
 

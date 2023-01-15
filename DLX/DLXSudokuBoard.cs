@@ -42,28 +42,31 @@ namespace Omega.DLX
 
         public String SolvedBoard;
 
+        //creating the dlx class
         public DLXSudokuBoard(String tempString, int tempInt)
         {
             this.size = tempInt;
             this.sqrtSize = (int)Math.Sqrt(tempInt);
-            boardFill(tempString);
-            initCoverMatrix();
+            BoardFill(tempString);
+            InitCoverMatrix();
             ConvertMatrixIntoNodeMatrix();
             this.dlxStack = new Stack<BaseDLXNode>();
         }
 
-        public void finalSolve()
+
+        // fucntions which use the solve board , also mesure time and convert the board into string solution
+        public void FinalSolve()
         {
             var watch = new System.Diagnostics.Stopwatch();
             watch.Start();
-            Boolean b = search();
+            Boolean b = Search();
             watch.Stop();
             if (b)
             {
                 ConverBackToBoard();
                 //printBoard();
                 Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-                buildSolveBoardString();
+                BuildSolveBoardString();
             }
             else
             {
@@ -73,117 +76,7 @@ namespace Omega.DLX
             }
         }
 
-
-        //public DLXSudokuBoard(String tempString , int tempInt)
-        //{
-        //    //creating the board , will be improved soon
-
-        //    var watch = new System.Diagnostics.Stopwatch();
-        //    //Console.WriteLine("please enter the size\n");
-        //    //int tempInt = int.Parse(Console.ReadLine());
-        //    this.size = tempInt;
-
-        //    this.sqrtSize = (int)Math.Sqrt(tempInt);
-
-
-        //    //Console.WriteLine("please enter the boardString");
-        //    //string tempString = Console.ReadLine();
-
-
-        //    watch.Start();
-        //    boardFill(tempString);
-        //    printBoard();
-
-        //    initCoverMatrix();
-
-
-        //    ConvertMatrixIntoNodeMatrix();
-
-
-        //    this.dlxStack = new Stack<BaseDLXNode>();
-
-
-        //    // start the solve fucntion , which is search
-        //    //watch.Start();
-        //    Boolean b = search();
-        //    watch.Stop();
-        //    if (b)
-        //    {
-        //        ConverBackToBoard();
-        //        printBoard();
-        //        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-        //        buildSolveBoardString();
-        //    }
-        //    else
-        //    {
-        //        this.SolvedBoard = "cant solve";
-        //        Console.WriteLine("cant solve");
-        //    }
-        //}
-
-
-
-
-
-        // !!! this is an EXCACT copy of the main function , the ONLY
-        // diffrence is the fact that i do not use the print methods
-        // but only solve the board!
-        // this is for giving an accurate solving time
-        //public DLXSudokuBoard(String tempString, int tempInt, Boolean isTesting)
-        //{
-        //    //creating the board , will be improved soon
-
-        //    var watch = new System.Diagnostics.Stopwatch();
-        //    //Console.WriteLine("please enter the size\n");
-        //    //int tempInt = int.Parse(Console.ReadLine());
-        //    this.size = tempInt;
-
-        //    this.sqrtSize = (int)Math.Sqrt(tempInt);
-
-
-        //    //Console.WriteLine("please enter the boardString");
-        //    //string tempString = Console.ReadLine();
-
-
-        //    watch.Start();
-        //    boardFill(tempString);
-
-        //    if (!isTesting)
-        //    {
-        //        printBoard();
-        //    }
-
-        //    initCoverMatrix();
-
-
-        //    ConvertMatrixIntoNodeMatrix();
-
-
-        //    this.dlxStack = new Stack<BaseDLXNode>();
-
-
-        //    // start the solve fucntion , which is search
-        //    //watch.Start();
-        //    Boolean b = search();
-        //    watch.Stop();
-        //    if (b)
-        //    {
-        //        ConverBackToBoard();
-        //        if (!isTesting)
-        //        {
-        //            printBoard();
-        //        }
-        //        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-        //        buildSolveBoardString();
-        //    }
-        //    else
-        //    {
-        //        this.SolvedBoard = "";
-        //        Console.WriteLine("cant solve");
-        //    }
-        //}
-
-        public void boardFill(String str)
+        public void BoardFill(String str)
         {
             // convert the string into matrix of workable numbers
             this.matrix = new byte[size, size];
@@ -206,7 +99,7 @@ namespace Omega.DLX
         // size*size*4 - for each cell-row-col-box
         // size*size*size for the row col and all posibilities we can put inside it
 
-        public void initCoverMatrix()
+        public void InitCoverMatrix()
         {
             // initialize the cover matrix
             coverMatrix = new byte[size * size * size, size * size * 4];
@@ -221,19 +114,19 @@ namespace Omega.DLX
                         if (matrix[row, col] == 0 || matrix[row, col] == value + 1)
                         {
                             // the row in the cover matrix we need to insert to [X,]
-                            int rowPlace = firstDimensionPlacement(row, col, value);
+                            int rowPlace = FirstDimensionPlacement(row, col, value);
 
                             // setting the mat in the calculated spots to 1
-                            coverMatrix[rowPlace, cellPlacement(row, col)] = 1;
+                            coverMatrix[rowPlace, CellPlacement(row, col)] = 1;
 
 
-                            coverMatrix[rowPlace, rowPlacement(row, value)] = 1;
+                            coverMatrix[rowPlace, RowPlacement(row, value)] = 1;
 
 
-                            coverMatrix[rowPlace, colPlacement(col, value)] = 1;
+                            coverMatrix[rowPlace, ColPlacement(col, value)] = 1;
 
 
-                            coverMatrix[rowPlace, boxPlacement(row, col, value)] = 1;
+                            coverMatrix[rowPlace, BoxPlacement(row, col, value)] = 1;
                         }
                     }
                 }
@@ -250,27 +143,34 @@ namespace Omega.DLX
         // 101 - > 4
         // 201 - > 5
         //etc , this func will calc the row in the matrix
-        public int firstDimensionPlacement(int row, int col, int value)
+        public int FirstDimensionPlacement(int row, int col, int value)
         {
             return row * size * size + col * size + value;
         }
 
-        public int cellPlacement(int row, int col)
+        // func that return the cell placement in the coverMatrix (col in coverMatrix)
+        public int CellPlacement(int row, int col)
         {
             return row * size + col;
         }
 
-        public int rowPlacement(int row, int value)
+
+        // func that return the row placement in the coverMatrix (col in coverMatrix)
+        public int RowPlacement(int row, int value)
         {
             return size * size + row * size + value;
         }
 
-        public int colPlacement(int col, int value)
+
+        // func that return the col placement in the coverMatrix (col in coverMatrix)
+        public int ColPlacement(int col, int value)
         {
             return size * size * 2 + col * size + value;
         }
 
-        public int boxPlacement(int row, int col, int value)
+
+        // func that return the row placement in the coverMatrix (col in coverMatrix)
+        public int BoxPlacement(int row, int col, int value)
         {
             return size * size * 3 +
                    (row / sqrtSize * sqrtSize + col / sqrtSize) * size + value;
@@ -306,12 +206,12 @@ namespace Omega.DLX
                 if (index == 0)
                 {
                     fatherArray[index] = new AdvanceDLXNode(index);
-                    this.fatherOfAll.linkRight(fatherArray[index]);
+                    this.fatherOfAll.LinkRight(fatherArray[index]);
                 }
                 else
                 {
                     fatherArray[index] = new AdvanceDLXNode(index);
-                    fatherArray[index - 1].linkRight(fatherArray[index]);
+                    fatherArray[index - 1].LinkRight(fatherArray[index]);
                 }
 
 
@@ -349,12 +249,12 @@ namespace Omega.DLX
                         fatherNode = fatherArray[col];
                         insertNode = new BaseDLXNode(fatherNode);
                         // linking the new node to the father
-                        fatherNode.Up.linkDown(insertNode);
+                        fatherNode.Up.LinkDown(insertNode);
 
                         // inserting the new nodes
                         if (connectionNode != null)
                         {
-                            connectionNode.linkRight(insertNode);
+                            connectionNode.LinkRight(insertNode);
                             connectionNode = connectionNode.Right;
                         }
                         // the case of connectionNode = null 
@@ -376,7 +276,7 @@ namespace Omega.DLX
 
         // going over all the fathers and returning the father which hold the least
         // amont of nodes - most efective way of selectiong for fast calculating
-        public AdvanceDLXNode chooseColumnObject()
+        public AdvanceDLXNode ChooseColumnObject()
         {
             AdvanceDLXNode n = (AdvanceDLXNode)this.fatherOfAll.Right;
 
@@ -401,7 +301,8 @@ namespace Omega.DLX
         }
 
 
-        public Boolean search()
+        // the  main algorithem which solve the board
+        public Boolean Search()
         {
             // if the father.right = father , means there are no move fathers linked 
             // in the list , means we have all the solutions we need
@@ -412,7 +313,7 @@ namespace Omega.DLX
 
 
             // choosing the colunm to cover
-            AdvanceDLXNode chosenNode = chooseColumnObject();
+            AdvanceDLXNode chosenNode = ChooseColumnObject();
 
             // covering it
             chosenNode.Cover();
@@ -439,7 +340,7 @@ namespace Omega.DLX
                 }
 
                 // calling the function again
-                if (search())
+                if (Search())
                 {
                     return true;
                 }
@@ -456,7 +357,7 @@ namespace Omega.DLX
 
                 while (temp != RowNode)
                 {
-                    temp.father.unCover();
+                    temp.father.UnCover();
                     temp = temp.Left;
                 }
 
@@ -464,7 +365,7 @@ namespace Omega.DLX
             }
             //uncover the node we chose to cover at the start
             // ending the restoration of the linked list 
-            chosenNode.unCover();
+            chosenNode.UnCover();
 
             //  return false (so the if knows to get into this point , and reset what is needed)
             return false;
@@ -522,7 +423,8 @@ namespace Omega.DLX
 
             }
         }
-        public void printBoard()
+        // func to print the board
+        public void PrintBoard()
         {
             if (this.size == 1)
             {
@@ -587,8 +489,8 @@ namespace Omega.DLX
             }
 
         }
-
-        public void buildSolveBoardString()
+        //function which conver the solved board into the string of solution
+        public void BuildSolveBoardString()
         {
             String board = "";
             for (int i = 0; i < this.size; i++)

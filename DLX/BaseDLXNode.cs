@@ -33,13 +33,13 @@ namespace Omega.DLX
         }
 
         // unlinking the node 
-        public void unlinkRight()
+        public void UnlinkRight()
         {
             Left.Right = Right;
             Right.Left= Left;
         }
 
-        public void unlinkDown()
+        public void UnlinkDown()
         {
             Up.Down = Down;
             Down.Up = Up;
@@ -47,13 +47,13 @@ namespace Omega.DLX
 
         
         //link the nodes together with the pointers the disconnected node have
-        public void relinkRight()
+        public void RelinkRight()
         {
             Left.Right = this;
             Right.Left = this;
         }
 
-        public void relinkDown()
+        public void RelinkDown()
         {
             Up.Down = this;
             Down.Up = this;
@@ -61,7 +61,7 @@ namespace Omega.DLX
 
         // linking a new node from the down
 
-        public void linkDown(BaseDLXNode n)
+        public void LinkDown(BaseDLXNode n)
         {
             n.Down = Down;
             n.Down.Up = n;
@@ -69,7 +69,7 @@ namespace Omega.DLX
             Down = n;
         }
 
-        public void linkRight(BaseDLXNode n)
+        public void LinkRight(BaseDLXNode n)
         {
             n.Right = Right;
             n.Right.Left = n;

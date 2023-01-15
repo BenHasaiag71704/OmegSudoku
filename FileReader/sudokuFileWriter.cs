@@ -8,6 +8,7 @@ namespace Omega.FileReader
 {
     public class sudokuFileWriter
     {
+        //writer which get a path and write into if the solved string
         public static void Writer(String path , String board)
         {
             if (!File.Exists(path))

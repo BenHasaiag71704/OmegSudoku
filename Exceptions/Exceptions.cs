@@ -8,47 +8,49 @@ namespace Omega.Exceptions
 {
     public class Exceptions
     {
-        public class sizeNotSupportedException : Exception
+        //the size is not valid
+        public class SizeNotSupportedException : Exception
         { 
             
-            public sizeNotSupportedException() : base("the board size is invalid")
+            public SizeNotSupportedException() : base("the board size is invalid")
             {
                 
             }
         }
-
-        public class charNotSupportedException : Exception
+        //when an unvalid char is used for a board , for example , E cant be placed in 9x9 board
+        public class CharNotSupportedException : Exception
         {
 
-            public charNotSupportedException() : base("this char is invalid for this board size")
+            public CharNotSupportedException() : base("this char is invalid for this board size")
             {
 
             }
         }
 
-
-        public class rowNotSupportedException : Exception
+        //in the case there are 2 of the same number in the same row
+        public class RowNotSupportedException : Exception
         {
 
-            public rowNotSupportedException() : base("there is invalid row")
+            public RowNotSupportedException() : base("there is invalid row")
             {
 
             }
         }
 
-
-        public class colNotSupportedException : Exception
+        //in the case there are 2 of the same number in the same col
+        public class ColNotSupportedException : Exception
         {
 
-            public colNotSupportedException() : base("there is invalid col")
+            public ColNotSupportedException() : base("there is invalid col")
             {
 
             }
         }
 
-        public class boxNotSupportedException : Exception
+        //in the case there are 2 of the same number in the same box
+        public class BoxNotSupportedException : Exception
         {
-            public boxNotSupportedException() : base("there is invalid box")
+            public BoxNotSupportedException() : base("there is invalid box")
             {
 
             }

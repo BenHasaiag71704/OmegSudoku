@@ -10,11 +10,12 @@ namespace Omega.FileReader
     {
         public static (String,String) Reader()
         {
+            //get the path
             Console.WriteLine("please enter file path");
             string path = Console.ReadLine();
 
             string board = "";
-
+            // try open
             try {
                 board = File.ReadAllText(path);
                 }
@@ -25,6 +26,7 @@ namespace Omega.FileReader
             {
                 throw new ArgumentException(ex.Message);
             }
+            //return the string and the path (for the writer to later on use to save the result in the file)
             return (board,path);
         }
     }
