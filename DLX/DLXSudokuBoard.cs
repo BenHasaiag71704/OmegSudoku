@@ -61,7 +61,7 @@ namespace Omega.DLX
             if (b)
             {
                 ConverBackToBoard();
-                printBoard();
+                //printBoard();
                 Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
                 buildSolveBoardString();
             }
