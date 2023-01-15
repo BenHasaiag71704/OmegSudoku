@@ -7,76 +7,153 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 
 
-
-using static Omega.Validator;
+using static Omega.BoardValidator.dlxBoardValidator;
+using static Omega.Exceptions.Exceptions;
+using static Omega.FileReader.sudokuFileReader;
+using static Omega.FileReader.sudokuFileWriter;
 
 
 //10023400<06000700080007003009:6;0<00:0010=0;00>0300?200>000900<0=000800:0<201?000;76000@000?005=000:05?0040800;0@0059<00100000800200000=00<580030=00?0300>80@000580010002000=9?000<406@0=00700050300<0006004;00@0700@050>0010020;1?900=002000>000>000;0200=3500<
 
+
+// Desktop.9x9BoardTest.txt
 
 public class HelloWorld
 {
     public static void Main(string[] args)
     {
 
-        //Console.WriteLine("Welcome to the sudoku solver ");
+
+        Console.WriteLine("\r\n░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗  ████████╗░█████╗░  ████████╗██╗░░██╗███████╗\r\n░██║░░██╗░░██║██╔════╝██║░░░░░██╔══██╗██╔══██╗████╗░████║██╔════╝  ╚══██╔══╝██╔══██╗  ╚══██╔══╝██║░░██║██╔════╝\r\n░╚██╗████╗██╔╝█████╗░░██║░░░░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░  ░░░██║░░░██║░░██║  ░░░██║░░░███████║█████╗░░\r\n░░████╔═████║░██╔══╝░░██║░░░░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░  ░░░██║░░░██║░░██║  ░░░██║░░░██╔══██║██╔══╝░░\r\n░░╚██╔╝░╚██╔╝░███████╗███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗  ░░░██║░░░╚█████╔╝  ░░░██║░░░██║░░██║███████╗\r\n░░░╚═╝░░░╚═╝░░╚══════╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝  ░░░╚═╝░░░░╚════╝░  ░░░╚═╝░░░╚═╝░░╚═╝╚══════╝\r\n\r\n░█████╗░███╗░░░███╗░█████╗░███████╗██╗███╗░░██╗░██████╗░  ░█████╗░███╗░░░███╗███████╗░██████╗░░█████╗░\r\n██╔══██╗████╗░████║██╔══██╗╚════██║██║████╗░██║██╔════╝░  ██╔══██╗████╗░████║██╔════╝██╔════╝░██╔══██╗\r\n███████║██╔████╔██║███████║░░███╔═╝██║██╔██╗██║██║░░██╗░  ██║░░██║██╔████╔██║█████╗░░██║░░██╗░███████║\r\n██╔══██║██║╚██╔╝██║██╔══██║██╔══╝░░██║██║╚████║██║░░╚██╗  ██║░░██║██║╚██╔╝██║██╔══╝░░██║░░╚██╗██╔══██║\r\n██║░░██║██║░╚═╝░██║██║░░██║███████╗██║██║░╚███║╚██████╔╝  ╚█████╔╝██║░╚═╝░██║███████╗╚██████╔╝██║░░██║\r\n╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═╝░░╚══╝░╚═════╝░  ░╚════╝░╚═╝░░░░░╚═╝╚══════╝░╚═════╝░╚═╝░░╚═╝\r\n\r\n░██████╗██╗░░░██╗██████╗░░█████╗░██╗░░██╗██╗░░░██╗  ░██████╗░█████╗░██╗░░░░░██╗░░░██╗███████╗██████╗░\r\n██╔════╝██║░░░██║██╔══██╗██╔══██╗██║░██╔╝██║░░░██║  ██╔════╝██╔══██╗██║░░░░░██║░░░██║██╔════╝██╔══██╗\r\n╚█████╗░██║░░░██║██║░░██║██║░░██║█████═╝░██║░░░██║  ╚█████╗░██║░░██║██║░░░░░╚██╗░██╔╝█████╗░░██████╔╝\r\n░╚═══██╗██║░░░██║██║░░██║██║░░██║██╔═██╗░██║░░░██║  ░╚═══██╗██║░░██║██║░░░░░░╚████╔╝░██╔══╝░░██╔══██╗\r\n██████╔╝╚██████╔╝██████╔╝╚█████╔╝██║░╚██╗╚██████╔╝  ██████╔╝╚█████╔╝███████╗░░╚██╔╝░░███████╗██║░░██║\r\n╚═════╝░░╚═════╝░╚═════╝░░╚════╝░╚═╝░░╚═╝░╚═════╝░  ╚═════╝░░╚════╝░╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝");
+
+        Console.WriteLine();
+        Console.WriteLine();
+
+        
+        Console.WriteLine("enter -1 at any time to stop the program");
+        Console.WriteLine("press c to write a board or press f to read a board from file");
+
+        Console.WriteLine();
+
+        // the string of the board , from text or from file
+        string tempString = "0";
+
+        //to know what to do , are we reading from a file , text , we need to stop?
+        string whereBoardComeFrom = "0";
+
+        //in the case they chose f , store the path
+        string path = "0";
+
+        //in case that something went wrong , skip the calc part
+        Boolean toJoin = false;
 
 
-        //var watch = new System.Diagnostics.Stopwatch();
-        //SodukoBoard cs = new SodukoBoard();
+        while (true)
+        {
+            toJoin = false;
+            Console.WriteLine("choose c or f");
+            whereBoardComeFrom = Console.ReadLine();
+
+            
+            if (whereBoardComeFrom == "c")
+            {
+                 
+                Console.WriteLine("please enter the a board\n");
+                tempString = Console.ReadLine();
+                toJoin = true;
+            }
+            else if (whereBoardComeFrom == "f")
+            {
+                try
+                {
+                   (tempString, path) = Reader();
+                    toJoin = true;
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
 
 
-        //if (cs.isValid)
-        //{
-        //    Console.WriteLine("The Original Board : ");
-        //    cs.printBoard();
-        //    watch.Start();
+            if (whereBoardComeFrom == "-1")
+            {
+                break;
+            }
 
-        //    while (cs.simpleElimination())
-        //    {
+            if (toJoin == false)
+            {
+                Console.WriteLine("invalid choise , please try again");
+            }
 
-        //    }
-        //    Console.WriteLine(" ");
+            else if (tempString == "")
+            {
+                Console.WriteLine("you cannot enter an empty board");
+            }
+            else 
+            {
+                try
+                {
+                    isValid(tempString);
 
-        //    while (cs.hiddenSingle())
-        //    {
-
-        //    }
-        //    Boolean b = cs.SolveBoardHashAndBySize();
-
-        //    Boolean b = cs.SolveBoardBackwards();
-
-        //    Boolean b = cs.SolveBoard();
-
-
-        //    problematic on full empty board;
-
-        //    Boolean b = cs.SolveBoardBackwardsAndBySize();
-
-        //    Boolean b = cs.SolveBoardHash();
-
-        //    Boolean b = cs.SolveBoardEmptyArray();
+                    int lng = (int)Math.Sqrt(tempString.Length);
 
 
-        //    watch.Stop();
+                    DLXSudokuBoard dlx = new DLXSudokuBoard(tempString, lng);
+
+                    dlx.printBoard();
+
+                    dlx.finalSolve();
+
+                    dlx.printBoard();
 
 
-        //    cs.printBoard();
-        //    Console.WriteLine(" ");
+                    String solvedBoard = dlx.SolvedBoard;
 
-        //    Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-        //}
-        //else
-        //{
-        //    Console.WriteLine("Board Is Not Valid");
-        //}
+                    if (whereBoardComeFrom == "f")
+                    {
+                        if (solvedBoard == "")
+                        {
+                            solvedBoard = "cant solve";
+                        }
+                        Writer(path, solvedBoard);
+                    }
+                    if (solvedBoard != "")
+                    {
+                        Console.WriteLine(solvedBoard);
+                    }
+                }
+                catch (sizeNotSupportedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (charNotSupportedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (rowNotSupportedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (colNotSupportedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (boxNotSupportedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            
 
 
 
-
-        DLXSudokuBoard dlx = new DLXSudokuBoard();
-        Console.ReadLine();
-
+        }
     }
 
 }

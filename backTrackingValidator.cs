@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Omega
 {
-    public class Validator
+    public class backTrackingValidator
     {
 
         //check if the cell which was just added is valid with the entire board
