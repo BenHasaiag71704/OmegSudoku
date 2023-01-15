@@ -18,8 +18,12 @@ namespace Omega.FileReader
             try {
                 board = File.ReadAllText(path);
                 }
-            catch (SystemException ex) {
-                throw new SystemException(ex.Message);
+            catch (FileNotFoundException ex) {
+                throw new FileNotFoundException(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException(ex.Message);
             }
             return (board,path);
         }

@@ -42,38 +42,20 @@ namespace Omega.DLX
 
         public String SolvedBoard;
 
-
-        public DLXSudokuBoard(String tempString , int tempInt)
+        public DLXSudokuBoard(String tempString, int tempInt)
         {
-            //creating the board , will be improved soon
-
-            var watch = new System.Diagnostics.Stopwatch();
-            //Console.WriteLine("please enter the size\n");
-            //int tempInt = int.Parse(Console.ReadLine());
             this.size = tempInt;
-
             this.sqrtSize = (int)Math.Sqrt(tempInt);
-
-
-            //Console.WriteLine("please enter the boardString");
-            //string tempString = Console.ReadLine();
-
-
-            watch.Start();
             boardFill(tempString);
-            printBoard();
-
             initCoverMatrix();
-
-
             ConvertMatrixIntoNodeMatrix();
-
-
             this.dlxStack = new Stack<BaseDLXNode>();
+        }
 
-
-            // start the solve fucntion , which is search
-            //watch.Start();
+        public void finalSolve()
+        {
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
             Boolean b = search();
             watch.Stop();
             if (b)
@@ -85,10 +67,61 @@ namespace Omega.DLX
             }
             else
             {
-                this.SolvedBoard = "";
-                Console.WriteLine("cant solve");
+                Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+                this.SolvedBoard = "cant solve";
+                //Console.WriteLine("cant solve");
             }
         }
+
+
+        //public DLXSudokuBoard(String tempString , int tempInt)
+        //{
+        //    //creating the board , will be improved soon
+
+        //    var watch = new System.Diagnostics.Stopwatch();
+        //    //Console.WriteLine("please enter the size\n");
+        //    //int tempInt = int.Parse(Console.ReadLine());
+        //    this.size = tempInt;
+
+        //    this.sqrtSize = (int)Math.Sqrt(tempInt);
+
+
+        //    //Console.WriteLine("please enter the boardString");
+        //    //string tempString = Console.ReadLine();
+
+
+        //    watch.Start();
+        //    boardFill(tempString);
+        //    printBoard();
+
+        //    initCoverMatrix();
+
+
+        //    ConvertMatrixIntoNodeMatrix();
+
+
+        //    this.dlxStack = new Stack<BaseDLXNode>();
+
+
+        //    // start the solve fucntion , which is search
+        //    //watch.Start();
+        //    Boolean b = search();
+        //    watch.Stop();
+        //    if (b)
+        //    {
+        //        ConverBackToBoard();
+        //        printBoard();
+        //        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+        //        buildSolveBoardString();
+        //    }
+        //    else
+        //    {
+        //        this.SolvedBoard = "cant solve";
+        //        Console.WriteLine("cant solve");
+        //    }
+        //}
+
+
 
 
 
@@ -96,59 +129,59 @@ namespace Omega.DLX
         // diffrence is the fact that i do not use the print methods
         // but only solve the board!
         // this is for giving an accurate solving time
-        public DLXSudokuBoard(String tempString, int tempInt, Boolean isTesting)
-        {
-            //creating the board , will be improved soon
+        //public DLXSudokuBoard(String tempString, int tempInt, Boolean isTesting)
+        //{
+        //    //creating the board , will be improved soon
 
-            var watch = new System.Diagnostics.Stopwatch();
-            //Console.WriteLine("please enter the size\n");
-            //int tempInt = int.Parse(Console.ReadLine());
-            this.size = tempInt;
+        //    var watch = new System.Diagnostics.Stopwatch();
+        //    //Console.WriteLine("please enter the size\n");
+        //    //int tempInt = int.Parse(Console.ReadLine());
+        //    this.size = tempInt;
 
-            this.sqrtSize = (int)Math.Sqrt(tempInt);
-
-
-            //Console.WriteLine("please enter the boardString");
-            //string tempString = Console.ReadLine();
+        //    this.sqrtSize = (int)Math.Sqrt(tempInt);
 
 
-            watch.Start();
-            boardFill(tempString);
-
-            if (!isTesting)
-            {
-                printBoard();
-            }
-
-            initCoverMatrix();
+        //    //Console.WriteLine("please enter the boardString");
+        //    //string tempString = Console.ReadLine();
 
 
-            ConvertMatrixIntoNodeMatrix();
+        //    watch.Start();
+        //    boardFill(tempString);
+
+        //    if (!isTesting)
+        //    {
+        //        printBoard();
+        //    }
+
+        //    initCoverMatrix();
 
 
-            this.dlxStack = new Stack<BaseDLXNode>();
+        //    ConvertMatrixIntoNodeMatrix();
 
 
-            // start the solve fucntion , which is search
-            //watch.Start();
-            Boolean b = search();
-            watch.Stop();
-            if (b)
-            {
-                ConverBackToBoard();
-                if (!isTesting)
-                {
-                    printBoard();
-                }
-                Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
-                buildSolveBoardString();
-            }
-            else
-            {
-                this.SolvedBoard = "";
-                Console.WriteLine("cant solve");
-            }
-        }
+        //    this.dlxStack = new Stack<BaseDLXNode>();
+
+
+        //    // start the solve fucntion , which is search
+        //    //watch.Start();
+        //    Boolean b = search();
+        //    watch.Stop();
+        //    if (b)
+        //    {
+        //        ConverBackToBoard();
+        //        if (!isTesting)
+        //        {
+        //            printBoard();
+        //        }
+        //        Console.WriteLine($"Execution Time: {watch.Elapsed.TotalMilliseconds} ms");
+        //        buildSolveBoardString();
+        //    }
+        //    else
+        //    {
+        //        this.SolvedBoard = "";
+        //        Console.WriteLine("cant solve");
+        //    }
+        //}
 
         public void boardFill(String str)
         {

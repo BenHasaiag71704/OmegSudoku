@@ -10,6 +10,10 @@ namespace Omega.FileReader
     {
         public static void Writer(String path , String board)
         {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException();
+            }
             File.WriteAllText(path, board);
         }
     }
