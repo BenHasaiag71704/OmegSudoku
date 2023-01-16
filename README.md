@@ -19,14 +19,11 @@ This project is my attempt of creating an algorithm which is able to solve sudok
 
 ## Features
 
--Transformation of the sudoku puzzle into an exact cover problem.
+* Transformation of the sudoku puzzle into an exact cover problem.
 
--Implementation of Knuth's Algorithm X on mentioned problem.
+* Implementation of Knuth's Algorithm X on mentioned problem.
 
--Support for sudoku boards in the sizes mentioned above (and more) along with input from both console and files.
-
-
-## About the algorithm
+* Support for sudoku boards in the sizes mentioned above (and more) along with input from both console and files.
 
 
 ## Instructions
@@ -59,3 +56,4 @@ and dlx.PrintBoard() will result
 
 # Extras
 for those who seeks more ways to solve a sudoku board , please have a look at commit 07783b3 which holds two of my older attempts of solving a sudoku board using the backtracking algorithm in numerus ways.  
+for those who are interested in the full explanation about the dancing links could visit the articel : https://tinyurl.com/mtcybdsr
