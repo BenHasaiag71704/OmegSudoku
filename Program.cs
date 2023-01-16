@@ -115,6 +115,15 @@ public class HelloWorld
                     dlx.PrintBoard();
 
 
+                    //for (int i = 0; i < 64; i++)
+                    //{
+                    //    for (int j = 0; j<64; j++)
+                    //    {
+                    //        Console.Write(dlx.coverMatrix[i, j]);
+                    //    }
+                    //    Console.WriteLine();
+                    //}
+
                     String solvedBoard = dlx.SolvedBoard;
 
                     if (whereBoardComeFrom == "f")
